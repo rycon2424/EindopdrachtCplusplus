@@ -39,7 +39,7 @@ int main()
 		if (FrameRate > 6000) // Tries to get called every 60 frames + spawn then an enemy
 		{
 			gm->SpawnEnemy();
-			std::cout << "Frame" << std::endl;
+			//std::cout << "Frame" << std::endl;
 			FrameRate = 0;
 		}
 

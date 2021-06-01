@@ -16,7 +16,7 @@ void GameManager::SpawnEnemy()
 	enemyID++;
 	enemy.ID = enemyID;
 	
-	std::cout << "Created Enemy " << enemyID << std::endl;
+	//std::cout << "Created Enemy " << enemyID << std::endl;
 
 	activeEnemies.push_back(enemy);
 	ReDefineTextures();
@@ -24,11 +24,12 @@ void GameManager::SpawnEnemy()
 
 void GameManager::DestroyEnemy(Enemy &enemyToRemove)
 {
-	for (Enemy& e : activeEnemies)
+	for (int i = 0; i < activeEnemies.size(); i++)
 	{
-		if (e.ID == enemyToRemove.ID)
+		if (activeEnemies.at(i).ID == enemyToRemove.ID)
 		{
-			std::cout << "Needs to Remove enemy " << e.ID << std::endl;
+			std::cout << "Needs to Remove enemy with ID: " << activeEnemies.at(i).ID << " || position in vector = " << i << std::endl;
+			enemyLocation = i;
 		}
 	}
 }
@@ -42,6 +43,12 @@ void GameManager::GameLoop(sf::RenderWindow &window, sf::Sprite &playerRef)
 		{
 			e.Update(window, playerRef);
 		}
+	}
+	if (enemyLocation != -1) // Check if there is an enemy to be deleted after the update-loop for no nullreferences
+	{
+		activeEnemies.erase(activeEnemies.begin() + enemyLocation);
+		enemyLocation = -1;
+		ReDefineTextures();
 	}
 }
 

@@ -18,7 +18,7 @@ void Enemy::CollisionDetection(sf::Sprite &playerRef)
 	if (playerRef.getGlobalBounds().intersects(_sprite.getGlobalBounds()))
 	{
 		gm->DestroyEnemy(*this);
-		std::cout << "Collision with enemy ID " << ID << std::endl;
+		//std::cout << "Collision with enemy ID " << ID << std::endl;
 	}
 }
 

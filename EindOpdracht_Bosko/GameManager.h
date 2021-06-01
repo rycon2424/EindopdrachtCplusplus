@@ -19,4 +19,5 @@ public:
 
 private:
 	int enemyID = 0;
+	int enemyLocation = -1;
 };
