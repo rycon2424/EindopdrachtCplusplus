@@ -44,7 +44,7 @@ void GameManager::GameLoop(sf::RenderWindow &window, sf::Sprite &playerRef)
 			e.Update(window, playerRef);
 		}
 	}
-	if (enemyLocation != -1) // Check if there is an enemy to be deleted after the update-loop for no nullreferences
+	if (enemyLocation != -1) // Check if there is an enemy to be deleted after the foreach-loop for no nullreferences
 	{
 		activeEnemies.erase(activeEnemies.begin() + enemyLocation);
 		enemyLocation = -1;
