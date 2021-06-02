@@ -27,7 +27,7 @@ void Enemy::Movement()
 	//std::cout << currentPosition.x << " =X Y= " << currentPosition.y << std::endl;
 	if (movingLeft)
 	{
-		if (currentPosition.x < 75)
+		if (currentPosition.x < 175)
 		{
 			movingLeft = !movingLeft;
 			_sprite.setScale((float)0.3, (float)0.3);
@@ -37,7 +37,7 @@ void Enemy::Movement()
 	}
 	else
 	{
-		if (currentPosition.x > 625)
+		if (currentPosition.x > 525)
 		{
 			movingLeft = !movingLeft;
 			_sprite.setScale(-(float)0.3, (float)0.3);
@@ -45,7 +45,7 @@ void Enemy::Movement()
 		}
 		_sprite.move(0.05f, 0);
 	}
-	_sprite.move(0, 0.025f);
+	_sprite.move(0, 0.05f);
 	if (currentPosition.y > 700)
 	{
 		gm->DestroyEnemy(*this);

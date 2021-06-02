@@ -17,6 +17,7 @@ int main()
 	GameManager* gm = new GameManager();
 	gm->SpawnEnemy();
 
+	//Create and initiate BackGround
 	BackGround* bg = new BackGround(0, -700, "BackGround.jpg");
 
 	int FrameRate = 60;

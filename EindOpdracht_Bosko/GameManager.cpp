@@ -10,7 +10,7 @@ GameManager::GameManager()
 
 void GameManager::SpawnEnemy()
 {
-	Enemy enemy(350, 0, "BikerMan.png");
+	Enemy enemy(350, -200, "BikerMan.png");
 	enemy.SetGameManager(this);
 
 	enemyID++;
