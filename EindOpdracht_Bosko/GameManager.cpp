@@ -51,8 +51,13 @@ Enemy GameManager::SelectEnemyType()
 			int lanes = rand() % 5 + 0;
 			spawnLocation = 125 + (100 * lanes); // Lane spawn Locations
 		}
+
 		Enemy Vehicle(spawnLocation, -200, imagePath);
+
 		sf::Color color(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1);
+
+		float randomSpeed = rand() % 10 + 5;
+		randomSpeed = randomSpeed / 100;
 		if (carOrBike == 1)
 		{
 			if (spawnLocation > 300) // Choose if vehicle starts going in the left or right direction
@@ -68,7 +73,7 @@ Enemy GameManager::SelectEnemyType()
 		}
 		else
 		{
-			Vehicle.SetSpeed(0.00f, 0.05f);
+			Vehicle.SetSpeed(0.00f, randomSpeed);
 			Vehicle.SetScale(0.8f, 0.8f);
 		}
 		Vehicle._sprite.setColor(color);
