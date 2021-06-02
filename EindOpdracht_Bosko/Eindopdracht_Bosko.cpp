@@ -42,7 +42,7 @@ int main()
 		gm->GameLoop(window, player->_sprite);
 
 		FrameRate++;
-		if (FrameRate > 9000) // Tries to get called every 9000 loop + spawn then an enemy
+		if (FrameRate > 3000) // Tries to get called every 9000 loop + spawn then an enemy
 		{
 			gm->SpawnEnemy();
 			//std::cout << "Loop" << std::endl;

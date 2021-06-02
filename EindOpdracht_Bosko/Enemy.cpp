@@ -27,13 +27,18 @@ void Enemy::SetSpeed(float xSpeed, float ySpeed)
 	speedY = ySpeed;
 }
 
+void Enemy::SetScale(float xScale, float yScale)
+{
+	_sprite.setScale(xScale, yScale);
+}
+
 void Enemy::Movement()
 {
 	const sf::Vector2f& currentPosition = _sprite.getPosition();
-	//std::cout << currentPosition.x << " =X Y= " << currentPosition.y << std::endl;
+
 	if (movingLeft)
 	{
-		if (currentPosition.x < 125)
+		if (currentPosition.x < 110)
 		{
 			movingLeft = !movingLeft;
 		}
@@ -41,13 +46,15 @@ void Enemy::Movement()
 	}
 	else
 	{
-		if (currentPosition.x > 600)
+		if (currentPosition.x > 550)
 		{
 			movingLeft = !movingLeft;
 		}
 		_sprite.move(speedX, 0);
 	}
+
 	_sprite.move(0, speedY);
+
 	if (currentPosition.y > 700)
 	{
 		gm->DestroyEnemy(*this);

@@ -10,24 +10,11 @@ GameManager::GameManager()
 
 void GameManager::SpawnEnemy()
 {
-	switch (SelectEnemyType())
-	{
-	case 1: // On street
-		break;
-	case 2: // On emergency lane
-		break;
-	case 3: // Pedestrian
-		break;
-	default:
-		break;
-	}
-
-	Enemy enemy(350, -200, "BikerMan.png");
+	Enemy enemy = SelectEnemyType();
 	enemy.SetGameManager(this);
 
 	enemyID++;
 	enemy.ID = enemyID;
-	enemy.SetSpeed(0.05f, 0.05f);
 	
 	activeEnemies.push_back(enemy);
 	ReDefineTextures();
@@ -45,11 +32,77 @@ void GameManager::DestroyEnemy(Enemy &enemyToRemove)
 	}
 }
 
-int GameManager::SelectEnemyType()
+Enemy GameManager::SelectEnemyType()
 {
 	srand(time(NULL));
-	int randomInt = rand() % 3 + 1;
-	return randomInt;
+	int randomInt = rand() % 100 + 1;
+	int spawnLocation = rand() % 500 + 150;
+	if (randomInt < 70) // 50% chance to spawn driving vehicle
+	{
+		int carOrBike = rand() % 3 + 1;
+		std::string imagePath = "";
+		if (carOrBike == 1)
+		{
+			imagePath = "BikerMan.png";
+			//std::cout << "Spawn Biker" << std::endl;
+		}
+		else
+		{
+			imagePath = "Car.png";
+			//std::cout << "Spawn Car" << std::endl;
+		}
+		Enemy Vehicle(spawnLocation, -200, imagePath);
+		Vehicle.SetSpeed(0.05f, 0.05f);
+		sf::Color color(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1);
+		if (carOrBike == 1)
+		{
+			Vehicle.SetScale(0.03f, 0.03f);
+		}
+		else
+		{
+			Vehicle.SetScale(0.8f, 0.8f);
+		}
+		Vehicle._sprite.setColor(color);
+		return Vehicle;
+	}
+	else if (randomInt < 80) // 10% chance to spawn pedestrian
+	{
+		std::cout << "Spawn Pedestrian" << std::endl;
+		int leftOrRight = rand() % 3 + 1;
+		int spawnPos;
+		if (leftOrRight == 1)
+		{
+			spawnPos = 10;
+		}
+		else
+		{
+			spawnPos = 660;
+		}
+		Enemy Pedestrian(spawnPos, -200, "Pedestrian.png");
+		Pedestrian.SetSpeed(0, 0.2f);
+		Pedestrian.SetScale(0.4f, 0.5f);
+		return Pedestrian;
+	}
+	else if (randomInt < 100) // 20% chance to spawn Parked Car
+	{
+		std::cout << "Spawn Parked Car" << std::endl;
+		int leftOrRight = rand() % 3 + 1;
+		int spawnPos;
+		if (leftOrRight == 1)
+		{
+			spawnPos = 50;
+		}
+		else
+		{
+			spawnPos = 600;
+		}
+		sf::Color color(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1);
+		Enemy EmergencyCar(spawnPos, -200, "Car.png");
+		EmergencyCar.SetSpeed(0, 0.25f);
+		EmergencyCar.SetScale(0.8f, 0.8f);
+		EmergencyCar._sprite.setColor(color);
+		return EmergencyCar;
+	}
 }
 
 void GameManager::GameLoop(sf::RenderWindow &window, sf::Sprite &playerRef)
