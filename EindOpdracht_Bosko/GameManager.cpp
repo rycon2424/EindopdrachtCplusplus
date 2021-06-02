@@ -10,14 +10,25 @@ GameManager::GameManager()
 
 void GameManager::SpawnEnemy()
 {
+	switch (SelectEnemyType())
+	{
+	case 1: // On street
+		break;
+	case 2: // On emergency lane
+		break;
+	case 3: // Pedestrian
+		break;
+	default:
+		break;
+	}
+
 	Enemy enemy(350, -200, "BikerMan.png");
 	enemy.SetGameManager(this);
 
 	enemyID++;
 	enemy.ID = enemyID;
+	enemy.SetSpeed(0.05f, 0.05f);
 	
-	//std::cout << "Created Enemy " << enemyID << std::endl;
-
 	activeEnemies.push_back(enemy);
 	ReDefineTextures();
 }
@@ -32,6 +43,13 @@ void GameManager::DestroyEnemy(Enemy &enemyToRemove)
 			enemyLocation = i;
 		}
 	}
+}
+
+int GameManager::SelectEnemyType()
+{
+	srand(time(NULL));
+	int randomInt = rand() % 3 + 1;
+	return randomInt;
 }
 
 void GameManager::GameLoop(sf::RenderWindow &window, sf::Sprite &playerRef)

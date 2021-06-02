@@ -21,31 +21,33 @@ void Enemy::CollisionDetection(sf::Sprite &playerRef)
 	}
 }
 
+void Enemy::SetSpeed(float xSpeed, float ySpeed)
+{
+	speedX = xSpeed;
+	speedY = ySpeed;
+}
+
 void Enemy::Movement()
 {
 	const sf::Vector2f& currentPosition = _sprite.getPosition();
 	//std::cout << currentPosition.x << " =X Y= " << currentPosition.y << std::endl;
 	if (movingLeft)
 	{
-		if (currentPosition.x < 175)
+		if (currentPosition.x < 125)
 		{
 			movingLeft = !movingLeft;
-			_sprite.setScale((float)0.3, (float)0.3);
-			_sprite.move(-100, 0);
 		}
-		_sprite.move(-0.05f, 0);
+		_sprite.move(-speedX, 0);
 	}
 	else
 	{
-		if (currentPosition.x > 525)
+		if (currentPosition.x > 600)
 		{
 			movingLeft = !movingLeft;
-			_sprite.setScale(-(float)0.3, (float)0.3);
-			_sprite.move(100, 0);
 		}
-		_sprite.move(0.05f, 0);
+		_sprite.move(speedX, 0);
 	}
-	_sprite.move(0, 0.05f);
+	_sprite.move(0, speedY);
 	if (currentPosition.y > 700)
 	{
 		gm->DestroyEnemy(*this);

@@ -25,7 +25,7 @@ void Player::Move(sf::Event event)
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-		_sprite.move(0, -0.1f);
+		_sprite.move(0, -0.05f);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{

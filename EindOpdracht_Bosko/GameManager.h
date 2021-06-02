@@ -14,6 +14,7 @@ public:
 	void GameLoop(sf::RenderWindow &window, sf::Sprite &playerRef);
 	void ReDefineTextures();
 	void DrawUI(sf::RenderWindow &window);
+	int SelectEnemyType();
 
 	sf::Font font;
 
