@@ -18,14 +18,13 @@ void Enemy::CollisionDetection(sf::Sprite &playerRef)
 	if (playerRef.getGlobalBounds().intersects(_sprite.getGlobalBounds()))
 	{
 		gm->DestroyEnemy(*this);
-		//std::cout << "Collision with enemy ID " << ID << std::endl;
 	}
 }
 
 void Enemy::Movement()
 {
 	const sf::Vector2f& currentPosition = _sprite.getPosition();
-	//std::cout << currentPosition << std::endl;
+	//std::cout << currentPosition.x << " =X Y= " << currentPosition.y << std::endl;
 	if (movingLeft)
 	{
 		if (currentPosition.x < 75)
@@ -47,4 +46,8 @@ void Enemy::Movement()
 		_sprite.move(0.05f, 0);
 	}
 	_sprite.move(0, 0.025f);
+	if (currentPosition.y > 700)
+	{
+		gm->DestroyEnemy(*this);
+	}
 }
