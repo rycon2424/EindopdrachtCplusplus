@@ -56,6 +56,7 @@ int main()
 
 	delete player;
 	delete gm;
+	delete bg;
 
 	return 0;
 }
