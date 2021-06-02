@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "GameManager.h"
 #include "Enemy.h"
+#include "BackGround.h"
 
 int main()
 {
@@ -15,6 +16,8 @@ int main()
 	//Create and initiate GameManager
 	GameManager* gm = new GameManager();
 	gm->SpawnEnemy();
+
+	BackGround* bg = new BackGround(0, -700, "BackGround.jpg");
 
 	int FrameRate = 60;
 	while (window.isOpen())
@@ -31,15 +34,17 @@ int main()
 		}
 		window.clear(); // Draw code vv
 
+		bg->Update(window);
+
 		player->Update(window, event);
 
 		gm->GameLoop(window, player->_sprite);
 
 		FrameRate++;
-		if (FrameRate > 6000) // Tries to get called every 60 frames + spawn then an enemy
+		if (FrameRate > 9000) // Tries to get called every 9000 loop + spawn then an enemy
 		{
 			gm->SpawnEnemy();
-			//std::cout << "Frame" << std::endl;
+			//std::cout << "Loop" << std::endl;
 			FrameRate = 0;
 		}
 

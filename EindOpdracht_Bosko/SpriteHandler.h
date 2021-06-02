@@ -11,7 +11,7 @@ public:
 	sf::Texture _texture;
 
 	SpriteHandler(float spawnX, float spawnY, std::string pathToImage);
-	void Update(sf::RenderWindow &window);
+	virtual void Update(sf::RenderWindow &window);
 
 };
 
