@@ -10,6 +10,8 @@ int main()
 {
 	sf::RenderWindow window(sf::VideoMode(700, 700), "Eindopdracht Kernmodule Bosko Ivkovic");
 
+	srand(time(NULL)); // Set Random seed
+
 	//Create and initiate Player
 	Player* player = new Player(325, 550, "PlayerCar.png");
 
