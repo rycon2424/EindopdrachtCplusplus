@@ -54,8 +54,8 @@ int main()
 		window.display(); // Draw code ^^
 	}
 
-	delete player;
 	delete gm;
+	delete player;
 	delete bg;
 
 	return 0;
