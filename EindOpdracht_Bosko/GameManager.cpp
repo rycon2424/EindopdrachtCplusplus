@@ -34,32 +34,41 @@ void GameManager::DestroyEnemy(Enemy &enemyToRemove)
 
 Enemy GameManager::SelectEnemyType()
 {
-	srand(time(NULL));
-	int randomInt = rand() % 100 + 1;
-	int spawnLocation = rand() % 500 + 150;
-	if (randomInt < 70) // 50% chance to spawn driving vehicle
+	int randomInt = rand() % 101 + 1; // Chance from 1 to 100
+	if (randomInt < 70) // 70% chance to spawn driving vehicle
 	{
 		int carOrBike = rand() % 3 + 1;
 		std::string imagePath = "";
+		int spawnLocation = 0;
 		if (carOrBike == 1)
 		{
 			imagePath = "BikerMan.png";
-			//std::cout << "Spawn Biker" << std::endl;
+			spawnLocation = rand() % 500 + 150;
 		}
 		else
 		{
 			imagePath = "Car.png";
-			//std::cout << "Spawn Car" << std::endl;
+			int lanes = rand() % 5 + 0;
+			spawnLocation = 125 + (100 * lanes); // Lane spawn Locations
 		}
 		Enemy Vehicle(spawnLocation, -200, imagePath);
-		Vehicle.SetSpeed(0.05f, 0.05f);
 		sf::Color color(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1);
 		if (carOrBike == 1)
 		{
+			if (spawnLocation > 300) // Choose if vehicle starts going in the left or right direction
+			{
+				Vehicle.movingLeft = true;
+			}
+			else
+			{
+				Vehicle.movingLeft = false;
+			}
+			Vehicle.SetSpeed(0.05f, 0.05f);
 			Vehicle.SetScale(0.03f, 0.03f);
 		}
 		else
 		{
+			Vehicle.SetSpeed(0.00f, 0.05f);
 			Vehicle.SetScale(0.8f, 0.8f);
 		}
 		Vehicle._sprite.setColor(color);
@@ -67,7 +76,6 @@ Enemy GameManager::SelectEnemyType()
 	}
 	else if (randomInt < 80) // 10% chance to spawn pedestrian
 	{
-		std::cout << "Spawn Pedestrian" << std::endl;
 		int leftOrRight = rand() % 3 + 1;
 		int spawnPos;
 		if (leftOrRight == 1)
@@ -85,7 +93,6 @@ Enemy GameManager::SelectEnemyType()
 	}
 	else if (randomInt < 100) // 20% chance to spawn Parked Car
 	{
-		std::cout << "Spawn Parked Car" << std::endl;
 		int leftOrRight = rand() % 3 + 1;
 		int spawnPos;
 		if (leftOrRight == 1)
@@ -107,7 +114,6 @@ Enemy GameManager::SelectEnemyType()
 
 void GameManager::GameLoop(sf::RenderWindow &window, sf::Sprite &playerRef)
 {
-	DrawUI(window);
 	if (activeEnemies.size() > 0)
 	{
 		for (Enemy& e : activeEnemies) // & so that i am modifiying the original and NOT the copy
@@ -121,6 +127,7 @@ void GameManager::GameLoop(sf::RenderWindow &window, sf::Sprite &playerRef)
 		enemyLocation = -1;
 		ReDefineTextures();
 	}
+	DrawUI(window);
 }
 
 //Re-Reference texture each time because of whiteBox issue
@@ -137,7 +144,9 @@ void GameManager::DrawUI(sf::RenderWindow &window)
 	sf::Text text;
 	text.setFont(font);
 	text.setCharacterSize(24);
-	text.setPosition(500, 0);
+	text.setPosition(400, 0);
 	text.setString("Test 123456789");
+	sf::Color color(0, 0, 0);
+	text.setFillColor(color);
 	window.draw(text);
 }

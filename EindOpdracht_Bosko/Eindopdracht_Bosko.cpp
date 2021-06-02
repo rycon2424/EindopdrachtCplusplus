@@ -11,7 +11,7 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(700, 700), "Eindopdracht Kernmodule Bosko Ivkovic");
 
 	//Create and initiate Player
-	Player* player = new Player(350, 550, "PlayerCar.png");
+	Player* player = new Player(325, 550, "PlayerCar.png");
 
 	//Create and initiate GameManager
 	GameManager* gm = new GameManager();
@@ -42,7 +42,7 @@ int main()
 		gm->GameLoop(window, player->_sprite);
 
 		FrameRate++;
-		if (FrameRate > 3000) // Tries to get called every 9000 loop + spawn then an enemy
+		if (FrameRate > 9000) // Tries to get called every 9000 loop + spawn then an enemy
 		{
 			gm->SpawnEnemy();
 			//std::cout << "Loop" << std::endl;
