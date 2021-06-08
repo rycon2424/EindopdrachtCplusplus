@@ -9,3 +9,5 @@ void BackGround::Update(sf::RenderWindow & window)
 	}
 	SpriteHandler::Update(window);
 }
+
+BackGround::~BackGround() {}

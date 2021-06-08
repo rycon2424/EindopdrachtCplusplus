@@ -17,6 +17,8 @@ GameManager::GameManager()
 	InitialiseText(pointsModifier, 24, color, 570, 0, "Points x" + std::to_string(playerCurrentY));
 }
 
+GameManager::~GameManager() {}
+
 void GameManager::SpawnEnemy()
 {
 	if (enemySpawnInterval > 31)
@@ -153,6 +155,9 @@ void GameManager::GameLoop(sf::RenderWindow &window, sf::Sprite &playerRef)
 		enemyLocation = -1;
 		ReDefineTextures();
 	}
+	sf::RectangleShape rec(sf::Vector2f(700, 30));
+	rec.setFillColor(sf::Color(255, 255, 0));
+	window.draw(rec);
 	DrawUI(window);
 }
 

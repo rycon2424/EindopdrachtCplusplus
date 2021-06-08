@@ -9,6 +9,7 @@ class GameManager
 {
 public:
 	GameManager();
+	~GameManager();
 	std::vector<Enemy> activeEnemies;
 	void StartGame(sf::RenderWindow &window, sf::Event event);
 	void GameLoop(sf::RenderWindow &window, sf::Sprite &playerRef);

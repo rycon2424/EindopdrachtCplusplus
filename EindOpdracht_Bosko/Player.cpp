@@ -6,6 +6,8 @@ void Player::Update(sf::RenderWindow &window, sf::Event event)
 	Move(event);
 }
 
+Player::~Player() {}
+
 void Player::Move(sf::Event event)
 {
 	const sf::Vector2f& currentPosition = _sprite.getPosition();
@@ -30,7 +32,7 @@ void Player::Move(sf::Event event)
 			_sprite.move(0, -2.5f);
 		}
 	}
-	if (currentPosition.y < 600)
+	if (currentPosition.y < 580)
 	{
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))

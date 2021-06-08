@@ -9,6 +9,7 @@ public:
 	{
 		_sprite.setScale((float)0.225, (float)0.225);
 	};
+	~Player();
 	void Update(sf::RenderWindow &window, sf::Event event);
 
 private:
