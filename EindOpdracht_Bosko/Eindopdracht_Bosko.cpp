@@ -18,7 +18,6 @@ int main()
 
 	//Create and initiate GameManager
 	GameManager* gm = new GameManager();
-	gm->SpawnEnemy();
 
 	//Create and initiate BackGround
 	BackGround* bg = new BackGround(0, -700, "BackGround.jpg");
@@ -45,13 +44,6 @@ int main()
 			player->Update(window, event);
 
 			gm->GameLoop(window, player->_sprite);
-
-			FrameRate++;
-			if (FrameRate > 80) // try to spawn enemy every 80th frame
-			{
-				gm->SpawnEnemy();
-				FrameRate = 0;
-			}
 		}
 		else
 		{

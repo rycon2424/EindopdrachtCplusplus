@@ -12,11 +12,18 @@ GameManager::GameManager()
 	InitialiseText(mainMenuText, 40, color, 225, 50, "Racing Game");
 	InitialiseText(credits, 20, color, 235, 100, "Made by: Bosko Ivkovic");
 	InitialiseText(pressEnterToStart, 24, color, 220, 350, "Press Enter To start");
-	InitialiseText(highScoreText, 24, color, 260, 500, "Highscore: " + std::to_string(1000));
+	InitialiseText(highscoreText, 24, color, 260, 500, "Highscore: " + std::to_string(1000));
+	InitialiseText(currentHighscore, 24, color, 5, 0, "Score: " + std::to_string(highscore));
+	InitialiseText(pointsModifier, 24, color, 570, 0, "Points x" + std::to_string(playerCurrentY));
 }
 
 void GameManager::SpawnEnemy()
 {
+	if (enemySpawnInterval > 31)
+	{
+		enemySpawnInterval--;
+	}
+
 	Enemy enemy = SelectEnemyType();
 	enemy.SetGameManager(this);
 
@@ -35,6 +42,8 @@ void GameManager::DestroyEnemy(Enemy &enemyToRemove)
 		{
 			//std::cout << "Needs to Remove enemy with ID: " << activeEnemies.at(i).ID << " || position in vector = " << i << std::endl;
 			enemyLocation = i;
+			highscore += 50 * pointsMultiplier;
+			currentHighscore.setString("Score: " + std::to_string(highscore));
 		}
 	}
 }
@@ -42,12 +51,12 @@ void GameManager::DestroyEnemy(Enemy &enemyToRemove)
 Enemy GameManager::SelectEnemyType()
 {
 	int randomInt = rand() % 101 + 1; // Chance from 1 to 100
+	int fiftyfifty = rand() % 3 + 1;
 	if (randomInt < 70) // 70% chance to spawn driving vehicle
 	{
-		int carOrBike = rand() % 3 + 1;
 		std::string imagePath = "";
 		int spawnLocation = 0;
-		if (carOrBike == 1)
+		if (fiftyfifty == 1)
 		{
 			imagePath = "BikerMan.png";
 			spawnLocation = rand() % 500 + 150;
@@ -65,7 +74,7 @@ Enemy GameManager::SelectEnemyType()
 
 		float randomSpeed = rand() % 7 + 3;
 		randomSpeed = randomSpeed;
-		if (carOrBike == 1)
+		if (fiftyfifty == 1)
 		{
 			if (spawnLocation > 300) // Choose if vehicle starts going in the left or right direction
 			{
@@ -88,9 +97,8 @@ Enemy GameManager::SelectEnemyType()
 	}
 	else if (randomInt < 80) // 10% chance to spawn pedestrian
 	{
-		int leftOrRight = rand() % 3 + 1;
 		int spawnPos;
-		if (leftOrRight == 1)
+		if (fiftyfifty == 1)
 		{
 			spawnPos = 10;
 		}
@@ -105,9 +113,8 @@ Enemy GameManager::SelectEnemyType()
 	}
 	else if (randomInt < 100) // 20% chance to spawn Parked Car
 	{
-		int leftOrRight = rand() % 3 + 1;
 		int spawnPos;
-		if (leftOrRight == 1)
+		if (fiftyfifty == 1)
 		{
 			spawnPos = 50;
 		}
@@ -126,6 +133,13 @@ Enemy GameManager::SelectEnemyType()
 
 void GameManager::GameLoop(sf::RenderWindow &window, sf::Sprite &playerRef)
 {
+	playerCurrentY = playerRef.getPosition().y;
+	frameRate++;
+	if (frameRate > enemySpawnInterval)
+	{
+		SpawnEnemy();
+		frameRate = 0;
+	}
 	if (activeEnemies.size() > 0)
 	{
 		for (Enemy& e : activeEnemies) // & so that i am modifiying the original and NOT the copy
@@ -153,7 +167,13 @@ void GameManager::ReDefineTextures()
 
 void GameManager::DrawUI(sf::RenderWindow &window)
 {
+	window.draw(currentHighscore);
 
+	pointsMultiplier = int((playerCurrentY - 600) * -1 / 100 + 1);
+
+	pointsModifier.setString("Points x" + std::to_string(pointsMultiplier));
+
+	window.draw(pointsModifier);
 }
 
 void GameManager::StartGame(sf::RenderWindow &window, sf::Event event)
@@ -164,7 +184,7 @@ void GameManager::StartGame(sf::RenderWindow &window, sf::Event event)
 	}
 	window.draw(mainMenuText);
 	window.draw(credits);
-	window.draw(highScoreText);
+	window.draw(highscoreText);
 	mainMenuDisplay++;
 	if (mainMenuDisplay > 30)
 	{

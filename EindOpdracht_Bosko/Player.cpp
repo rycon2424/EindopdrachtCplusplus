@@ -23,12 +23,19 @@ void Player::Move(sf::Event event)
 			_sprite.move(-5, 0);
 		}
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	if (currentPosition.y > 0)
 	{
-		_sprite.move(0, -2.5f);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		{
+			_sprite.move(0, -2.5f);
+		}
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	if (currentPosition.y < 600)
 	{
-		_sprite.move(0, 5);
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		{
+			_sprite.move(0, 5);
+		}
 	}
 }
