@@ -13,22 +13,22 @@ void Player::Move(sf::Event event)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
-			_sprite.move(0.1f, 0);
+			_sprite.move(5, 0);
 		}
 	}
 	if (currentPosition.x > 0)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
-			_sprite.move(-0.1f, 0);
+			_sprite.move(-5, 0);
 		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-		_sprite.move(0, -0.05f);
+		_sprite.move(0, -2.5f);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
-		_sprite.move(0, 0.1f);
+		_sprite.move(0, 5);
 	}
 }

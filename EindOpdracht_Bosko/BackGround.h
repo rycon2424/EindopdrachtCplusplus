@@ -7,5 +7,5 @@ public:
 	BackGround(float spawnX, float spawnY, std::string pathToImage) :SpriteHandler(spawnX, spawnY, pathToImage) {};
 	void Update(sf::RenderWindow &window);
 private:
-	float movingSpeed = 0.2f;
+	float movingSpeed = 10;
 };

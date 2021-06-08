@@ -9,6 +9,7 @@
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(700, 700), "Eindopdracht Kernmodule Bosko Ivkovic");
+	window.setFramerateLimit(60);
 
 	srand(time(NULL)); // Set Random seed
 
@@ -39,16 +40,23 @@ int main()
 
 		bg->Update(window);
 
-		player->Update(window, event);
-
-		gm->GameLoop(window, player->_sprite);
-
-		FrameRate++;
-		if (FrameRate > 3000) // Tries to get called every 9000 loop + spawn then an enemy
+		if (gm->gameInProgress)
 		{
-			gm->SpawnEnemy();
-			//std::cout << "Loop" << std::endl;
-			FrameRate = 0;
+			player->Update(window, event);
+
+			gm->GameLoop(window, player->_sprite);
+
+			FrameRate++;
+			if (FrameRate > 80) // try to spawn enemy every 80th frame
+			{
+				gm->SpawnEnemy();
+				FrameRate = 0;
+			}
+		}
+		else
+		{
+			gm->StartGame(window, event);
+			window.draw(player->_sprite);
 		}
 
 		window.display(); // Draw code ^^

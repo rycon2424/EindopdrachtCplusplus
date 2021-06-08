@@ -5,7 +5,14 @@ GameManager::GameManager()
 	sf::Font uiFont;
 	uiFont.loadFromFile("Freshman.ttf");
 
+	sf::Color color(0, 0, 0);
+
 	font = uiFont;
+
+	InitialiseText(mainMenuText, 40, color, 225, 50, "Racing Game");
+	InitialiseText(credits, 20, color, 235, 100, "Made by: Bosko Ivkovic");
+	InitialiseText(pressEnterToStart, 24, color, 220, 350, "Press Enter To start");
+	InitialiseText(highScoreText, 24, color, 260, 500, "Highscore: " + std::to_string(1000));
 }
 
 void GameManager::SpawnEnemy()
@@ -26,7 +33,7 @@ void GameManager::DestroyEnemy(Enemy &enemyToRemove)
 	{
 		if (activeEnemies.at(i).ID == enemyToRemove.ID)
 		{
-			std::cout << "Needs to Remove enemy with ID: " << activeEnemies.at(i).ID << " || position in vector = " << i << std::endl;
+			//std::cout << "Needs to Remove enemy with ID: " << activeEnemies.at(i).ID << " || position in vector = " << i << std::endl;
 			enemyLocation = i;
 		}
 	}
@@ -56,8 +63,8 @@ Enemy GameManager::SelectEnemyType()
 
 		sf::Color color(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1);
 
-		float randomSpeed = rand() % 10 + 5;
-		randomSpeed = randomSpeed / 100;
+		float randomSpeed = rand() % 7 + 3;
+		randomSpeed = randomSpeed;
 		if (carOrBike == 1)
 		{
 			if (spawnLocation > 300) // Choose if vehicle starts going in the left or right direction
@@ -68,7 +75,7 @@ Enemy GameManager::SelectEnemyType()
 			{
 				Vehicle.movingLeft = false;
 			}
-			Vehicle.SetSpeed(0.05f, 0.05f);
+			Vehicle.SetSpeed(2.5f, 2.5f);
 			Vehicle.SetScale(0.03f, 0.03f);
 		}
 		else
@@ -92,7 +99,7 @@ Enemy GameManager::SelectEnemyType()
 			spawnPos = 660;
 		}
 		Enemy Pedestrian(spawnPos, -200, "Pedestrian.png");
-		Pedestrian.SetSpeed(0, 0.2f);
+		Pedestrian.SetSpeed(0, 15);
 		Pedestrian.SetScale(0.4f, 0.5f);
 		return Pedestrian;
 	}
@@ -110,7 +117,7 @@ Enemy GameManager::SelectEnemyType()
 		}
 		sf::Color color(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1);
 		Enemy EmergencyCar(spawnPos, -200, "Car.png");
-		EmergencyCar.SetSpeed(0, 0.25f);
+		EmergencyCar.SetSpeed(0, 15);
 		EmergencyCar.SetScale(0.8f, 0.8f);
 		EmergencyCar._sprite.setColor(color);
 		return EmergencyCar;
@@ -146,12 +153,34 @@ void GameManager::ReDefineTextures()
 
 void GameManager::DrawUI(sf::RenderWindow &window)
 {
-	sf::Text text;
+
+}
+
+void GameManager::StartGame(sf::RenderWindow &window, sf::Event event)
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+	{
+		gameInProgress = true;
+	}
+	window.draw(mainMenuText);
+	window.draw(credits);
+	window.draw(highScoreText);
+	mainMenuDisplay++;
+	if (mainMenuDisplay > 30)
+	{
+		window.draw(pressEnterToStart);
+	}
+	if (mainMenuDisplay > 60)
+	{
+		mainMenuDisplay = 0;
+	}
+}
+
+void GameManager::InitialiseText(sf::Text &text, int fontSize, sf::Color color, float posX, float posY, std::string content)
+{
 	text.setFont(font);
-	text.setCharacterSize(24);
-	text.setPosition(400, 0);
-	text.setString("Test 123456789");
-	sf::Color color(0, 0, 0);
+	text.setCharacterSize(fontSize);
 	text.setFillColor(color);
-	window.draw(text);
+	text.setString(content);
+	text.setPosition(posX, posY);
 }
