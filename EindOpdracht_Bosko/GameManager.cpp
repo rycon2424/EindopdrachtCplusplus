@@ -14,7 +14,6 @@ GameManager::GameManager()
 	InitialiseText(mainMenuText, 40, color, 225, 50, "Racing Game");
 	InitialiseText(credits, 20, color, 235, 100, "Made by: Bosko Ivkovic");
 	InitialiseText(pressEnterToStart, 24, color, 220, 350, "Press Enter To start");
-	InitialiseText(highscoreText, 24, color, 260, 500, "Highscore: " + std::to_string(1000));
 	InitialiseText(currentHighscore, 24, color, 5, 0, "Score: " + std::to_string(highscore));
 	InitialiseText(pointsModifier, 24, color, 570, 0, "Points x" + std::to_string(playerCurrentY));
 }
@@ -56,7 +55,6 @@ void GameManager::StartGame(sf::RenderWindow &window, sf::Event event)
 	}
 	window.draw(mainMenuText);
 	window.draw(credits);
-	window.draw(highscoreText);
 	mainMenuDisplay++;
 	if (mainMenuDisplay > 30)
 	{
@@ -94,6 +92,11 @@ void GameManager::Playing(sf::RenderWindow &window, sf::Sprite &playerRef)
 	rec.setFillColor(sf::Color(255, 255, 0));
 	window.draw(rec);
 	DrawUI(window);
+}
+
+void GameManager::EndScreen(sf::RenderWindow &window)
+{
+
 }
 
 void GameManager::SpawnEnemy()

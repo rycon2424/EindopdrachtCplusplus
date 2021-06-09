@@ -24,6 +24,7 @@ private:
 
 	void StartGame(sf::RenderWindow &window, sf::Event event);
 	void Playing(sf::RenderWindow &window, sf::Sprite &playerRef);
+	void EndScreen(sf::RenderWindow &window);
 
 	void InitialiseText(sf::Text &text, int fontSize, sf::Color color, float posX, float posY, std::string content);
 	void DrawUI(sf::RenderWindow &window);
@@ -33,7 +34,6 @@ private:
 
 	//Main menu text
 	sf::Text mainMenuText;
-	sf::Text highscoreText;
 	sf::Text pressEnterToStart;
 	sf::Text credits;
 
@@ -41,6 +41,10 @@ private:
 	sf::Text currentHighscore;
 	sf::Text pointsModifier;
 	sf::Font font;
+
+	//EndScreen text
+	sf::Text yourScore;
+	sf::Text exitGame;
 
 	float playerCurrentY;
 	int pointsMultiplier = 1;

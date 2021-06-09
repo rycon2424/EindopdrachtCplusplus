@@ -39,6 +39,10 @@ void Player::Move(sf::Event event)
 			acceleration.y = 3;
 		}
 	}
+	if (currentPosition.y > 500 || currentPosition.y < 0 || currentPosition.x < 0 || currentPosition.x > 650)
+	{
+		velocity *= 0.0f;
+	}
 	
 	_sprite.move(CalculateSpeed());
 }
