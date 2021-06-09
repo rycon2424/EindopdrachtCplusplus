@@ -63,18 +63,3 @@ void Enemy::Movement()
 		gm->DestroyEnemy(*this);
 	}
 }
-
-
-sf::Vector2f Enemy::CalculateSpeed()
-{
-	deltaTime = deltaClock.restart(); // Set deltatime
-
-	acceleration += -0.01f * velocity; // Friction
-
-	sf::Vector2f calcSpeed = sf::Vector2f(deltaTime.asSeconds() * velocity + acceleration); // Calculate acceleration
-
-	velocity += deltaTime.asSeconds() * acceleration * velocitySpeed; // Set velocity
-	acceleration = sf::Vector2f(0, 0);
-
-	return calcSpeed;
-}

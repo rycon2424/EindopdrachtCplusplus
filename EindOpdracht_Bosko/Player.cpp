@@ -46,17 +46,3 @@ void Player::Move(sf::Event event)
 	
 	_sprite.move(CalculateSpeed());
 }
-
-sf::Vector2f Player::CalculateSpeed()
-{
-	deltaTime = deltaClock.restart(); // Set deltatime
-
-	acceleration += -0.01f * velocity; // Friction
-
-	sf::Vector2f calcSpeed = sf::Vector2f(deltaTime.asSeconds() * velocity + acceleration); // Calculate acceleration
-
-	velocity += deltaTime.asSeconds() * acceleration * velocitySpeed; // Set velocity
-	acceleration = sf::Vector2f(0, 0);
-
-	return calcSpeed;
-}

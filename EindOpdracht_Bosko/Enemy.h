@@ -1,10 +1,11 @@
 #pragma once
 #include <iostream>
 #include "SpriteHandler.h"
+#include "Physics.h"
 
 class GameManager;
 
-class Enemy : public SpriteHandler
+class Enemy : public SpriteHandler, public Physics
 {
 public:
 	int ID;
@@ -19,15 +20,8 @@ public:
 private: 
 	GameManager* gm;
 
-	float velocitySpeed = 50;
 	float speedY;
 	float speedX;
-
-	sf::Vector2f CalculateSpeed();
-	sf::Vector2f velocity;
-	sf::Vector2f acceleration;
-	sf::Clock deltaClock;
-	sf::Time deltaTime;
 
 	void Movement();
 	void CollisionDetection(sf::Sprite &playerRef);

@@ -1,8 +1,9 @@
 #pragma once
 
 #include "SpriteHandler.h"
+#include "Physics.h"
 
-class Player : public SpriteHandler
+class Player : public SpriteHandler, public Physics
 {
 public:
 	Player(float spawnX, float spawnY, std::string pathToImage) :SpriteHandler(spawnX, spawnY, pathToImage) 
@@ -14,13 +15,5 @@ public:
 
 private:
 	void Move(sf::Event event);
-	sf::Vector2f CalculateSpeed();
-
-	sf::Vector2f velocity;
-	sf::Vector2f acceleration;
-	sf::Clock deltaClock;
-	sf::Time deltaTime;
-
-	float velocitySpeed = 50;
 };
 
