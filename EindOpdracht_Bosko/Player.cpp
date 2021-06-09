@@ -15,29 +15,44 @@ void Player::Move(sf::Event event)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
-			_sprite.move(5, 0);
+			acceleration.x = 2;
 		}
 	}
 	if (currentPosition.x > 0)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
-			_sprite.move(-5, 0);
+			acceleration.x = -2;
 		}
 	}
 	if (currentPosition.y > 0)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
-			_sprite.move(0, -2.5f);
+			acceleration.y = -1;
 		}
 	}
 	if (currentPosition.y < 580)
 	{
-
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
-			_sprite.move(0, 5);
+			acceleration.y = 3;
 		}
 	}
+	
+	_sprite.move(CalculateSpeed());
+}
+
+sf::Vector2f Player::CalculateSpeed()
+{
+	deltaTime = deltaClock.restart(); // Set deltatime
+
+	acceleration += -0.01f * velocity; // Friction
+
+	sf::Vector2f calcSpeed = sf::Vector2f(deltaTime.asSeconds() * velocity + acceleration); // Calculate acceleration
+
+	velocity += deltaTime.asSeconds() * acceleration * velocitySpeed; // Set velocity
+	acceleration = sf::Vector2f(0, 0);
+
+	return calcSpeed;
 }
