@@ -7,17 +7,26 @@ GameManager::GameManager()
 	sf::Font uiFont;
 	uiFont.loadFromFile("Freshman.ttf");
 
-	sf::Color color(0, 0, 0);
-
 	font = uiFont;
 
 	healthTexture.loadFromFile("HealthIcon.png");
 
+	//First Screen
+	sf::Color color(0, 0, 0);
 	InitialiseText(mainMenuText, 40, color, 225, 50, "Racing Game");
 	InitialiseText(credits, 20, color, 235, 100, "Made by: Bosko Ivkovic");
 	InitialiseText(pressEnterToStart, 24, color, 220, 350, "Press Enter To start");
+
+	//Ingame Screen
 	InitialiseText(currentScore, 24, color, 5, 0, "Score: " + std::to_string(highscore));
 	InitialiseText(pointsModifier, 24, color, 570, 0, "Points x" + std::to_string(playerCurrentY));
+
+	//End Screen
+	color = sf::Color(255, 255, 255);
+	InitialiseText(GameOver, 40, color, 225, 50, "Game Over");
+	InitialiseText(yourScore, 24, color, 260, 100, "Score: " + std::to_string(highscore));
+	InitialiseText(exitGame, 24, color, 220, 350, "Press Enter to exit");
+
 }
 
 GameManager::~GameManager() {}
@@ -34,6 +43,7 @@ void GameManager::GameLoop(sf::RenderWindow &window, sf::Sprite &playerRef, sf::
 		Playing(window, playerRef);
 		break;
 	case GameState::endScreen:
+		EndScreen(window);
 		break;
 	default:
 		break;
@@ -42,7 +52,12 @@ void GameManager::GameLoop(sf::RenderWindow &window, sf::Sprite &playerRef, sf::
 
 void GameManager::PlayerLoseHealth()
 {
-
+	playerHealth -= 1;
+	if (playerHealth == 0)
+	{
+		yourScore.setString("Score: " + std::to_string(highscore));
+		currentGameState = GameState::endScreen;
+	}
 }
 
 //PUBLIC ^^^^
@@ -98,9 +113,19 @@ void GameManager::Playing(sf::RenderWindow &window, sf::Sprite &playerRef)
 
 void GameManager::EndScreen(sf::RenderWindow &window)
 {
-	sf::RectangleShape rec(sf::Vector2f(700, 30));
-	rec.setFillColor(sf::Color(255, 255, 0));
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+	{
+		exit(0);
+	}
+
+	sf::RectangleShape rec(sf::Vector2f(700, 700));
+	rec.setFillColor(sf::Color(0, 0, 0));
+
 	window.draw(rec);
+
+	window.draw(GameOver);
+	window.draw(yourScore);
+	window.draw(exitGame);
 }
 
 void GameManager::SpawnEnemy()

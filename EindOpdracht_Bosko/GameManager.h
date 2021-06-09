@@ -45,6 +45,7 @@ private:
 	sf::Font font;
 
 	//EndScreen text
+	sf::Text GameOver;
 	sf::Text yourScore;
 	sf::Text exitGame;
 
