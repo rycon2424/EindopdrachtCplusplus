@@ -18,8 +18,16 @@ public:
 
 private: 
 	GameManager* gm;
+
+	float velocitySpeed = 50;
 	float speedY;
 	float speedX;
+
+	sf::Vector2f CalculateSpeed();
+	sf::Vector2f velocity;
+	sf::Vector2f acceleration;
+	sf::Clock deltaClock;
+	sf::Time deltaTime;
 
 	void Movement();
 	void CollisionDetection(sf::Sprite &playerRef);

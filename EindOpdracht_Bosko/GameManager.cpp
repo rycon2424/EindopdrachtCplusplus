@@ -151,7 +151,6 @@ void GameManager::DestroyEnemy(Enemy &enemyToRemove)
 	{
 		if (activeEnemies.at(i).ID == enemyToRemove.ID)
 		{
-			//std::cout << "Needs to Remove enemy with ID: " << activeEnemies.at(i).ID << " || position in vector = " << i << std::endl;
 			enemyLocation = i;
 			highscore += 50 * pointsMultiplier;
 			currentScore.setString("Score: " + std::to_string(highscore));

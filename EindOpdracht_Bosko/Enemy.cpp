@@ -41,23 +41,40 @@ void Enemy::Movement()
 	{
 		if (currentPosition.x < 110)
 		{
+			velocity *= 0.0f;
 			movingLeft = !movingLeft;
 		}
-		_sprite.move(-speedX, 0);
+		acceleration.x = -1 * speedX;
 	}
 	else
 	{
 		if (currentPosition.x > 550)
 		{
+			velocity *= 0.0f;
 			movingLeft = !movingLeft;
 		}
-		_sprite.move(speedX, 0);
+		acceleration.x = 1 * speedX;
 	}
-
-	_sprite.move(0, speedY);
+	acceleration.y = speedY;
+	_sprite.move(CalculateSpeed());
 
 	if (currentPosition.y > 700)
 	{
 		gm->DestroyEnemy(*this);
 	}
+}
+
+
+sf::Vector2f Enemy::CalculateSpeed()
+{
+	deltaTime = deltaClock.restart(); // Set deltatime
+
+	acceleration += -0.01f * velocity; // Friction
+
+	sf::Vector2f calcSpeed = sf::Vector2f(deltaTime.asSeconds() * velocity + acceleration); // Calculate acceleration
+
+	velocity += deltaTime.asSeconds() * acceleration * velocitySpeed; // Set velocity
+	acceleration = sf::Vector2f(0, 0);
+
+	return calcSpeed;
 }
