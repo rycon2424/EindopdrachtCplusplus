@@ -11,10 +11,12 @@ GameManager::GameManager()
 
 	font = uiFont;
 
+	healthTexture.loadFromFile("HealthIcon.png");
+
 	InitialiseText(mainMenuText, 40, color, 225, 50, "Racing Game");
 	InitialiseText(credits, 20, color, 235, 100, "Made by: Bosko Ivkovic");
 	InitialiseText(pressEnterToStart, 24, color, 220, 350, "Press Enter To start");
-	InitialiseText(currentHighscore, 24, color, 5, 0, "Score: " + std::to_string(highscore));
+	InitialiseText(currentScore, 24, color, 5, 0, "Score: " + std::to_string(highscore));
 	InitialiseText(pointsModifier, 24, color, 570, 0, "Points x" + std::to_string(playerCurrentY));
 }
 
@@ -96,7 +98,9 @@ void GameManager::Playing(sf::RenderWindow &window, sf::Sprite &playerRef)
 
 void GameManager::EndScreen(sf::RenderWindow &window)
 {
-
+	sf::RectangleShape rec(sf::Vector2f(700, 30));
+	rec.setFillColor(sf::Color(255, 255, 0));
+	window.draw(rec);
 }
 
 void GameManager::SpawnEnemy()
@@ -125,7 +129,7 @@ void GameManager::DestroyEnemy(Enemy &enemyToRemove)
 			//std::cout << "Needs to Remove enemy with ID: " << activeEnemies.at(i).ID << " || position in vector = " << i << std::endl;
 			enemyLocation = i;
 			highscore += 50 * pointsMultiplier;
-			currentHighscore.setString("Score: " + std::to_string(highscore));
+			currentScore.setString("Score: " + std::to_string(highscore));
 		}
 	}
 }
@@ -224,12 +228,20 @@ void GameManager::ReDefineTextures()
 
 void GameManager::DrawUI(sf::RenderWindow &window)
 {
-	window.draw(currentHighscore);
-
 	pointsMultiplier = int((playerCurrentY - 600) * -1 / 100 + 1);
 
 	pointsModifier.setString("Points x" + std::to_string(pointsMultiplier));
 
+	for (int i = 0; i < playerHealth; i++)
+	{
+		sf::Sprite healthIcon;
+		healthIcon.scale(0.15f, 0.15f);
+		healthIcon.setTexture(healthTexture);
+		healthIcon.setPosition(60 * i, 600);
+
+		window.draw(healthIcon);
+	}
+	window.draw(currentScore);
 	window.draw(pointsModifier);
 }
 

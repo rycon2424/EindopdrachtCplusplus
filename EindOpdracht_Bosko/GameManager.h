@@ -32,19 +32,23 @@ private:
 	void SpawnEnemy();
 	void ReDefineTextures();
 
+	int playerHealth = 3;
+
 	//Main menu text
 	sf::Text mainMenuText;
 	sf::Text pressEnterToStart;
 	sf::Text credits;
 
 	//Ingame text
-	sf::Text currentHighscore;
+	sf::Text currentScore;
 	sf::Text pointsModifier;
 	sf::Font font;
 
 	//EndScreen text
 	sf::Text yourScore;
 	sf::Text exitGame;
+
+	sf::Texture healthTexture;
 
 	float playerCurrentY;
 	int pointsMultiplier = 1;
