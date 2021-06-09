@@ -11,15 +11,20 @@ public:
 	GameManager();
 	~GameManager();
 	std::vector<Enemy> activeEnemies;
-	void StartGame(sf::RenderWindow &window, sf::Event event);
-	void GameLoop(sf::RenderWindow &window, sf::Sprite &playerRef);
+	void GameLoop(sf::RenderWindow &window, sf::Sprite &playerRef, sf::Event event);
 	void DestroyEnemy(Enemy &enemyToRemove);
+	void PlayerLoseHealth();
 
 	int highscore;
-	bool gameInProgress;
 	int enemySpawnInterval = 80;
 
 private:
+	enum GameState { startScreen, playing, endScreen };
+	GameState currentGameState;
+
+	void StartGame(sf::RenderWindow &window, sf::Event event);
+	void Playing(sf::RenderWindow &window, sf::Sprite &playerRef);
+
 	void InitialiseText(sf::Text &text, int fontSize, sf::Color color, float posX, float posY, std::string content);
 	void DrawUI(sf::RenderWindow &window);
 

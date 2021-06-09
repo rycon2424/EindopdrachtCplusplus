@@ -35,23 +35,15 @@ int main()
 				break;
 			}
 		}
-		window.clear(); // Draw code vv
+		window.clear(); // Game/Draw code vv
 
 		bg->Update(window);
 
-		if (gm->gameInProgress)
-		{
-			player->Update(window, event);
+		player->Update(window, event);
 
-			gm->GameLoop(window, player->_sprite);
-		}
-		else
-		{
-			gm->StartGame(window, event);
-			window.draw(player->_sprite);
-		}
+		gm->GameLoop(window, player->_sprite, event);
 
-		window.display(); // Draw code ^^
+		window.display(); // Game/Draw code ^^
 	}
 
 	delete gm;

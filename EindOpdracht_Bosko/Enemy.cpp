@@ -18,6 +18,7 @@ void Enemy::CollisionDetection(sf::Sprite &playerRef)
 	if (playerRef.getGlobalBounds().intersects(_sprite.getGlobalBounds()))
 	{
 		gm->DestroyEnemy(*this);
+		gm->PlayerLoseHealth();
 	}
 }
 

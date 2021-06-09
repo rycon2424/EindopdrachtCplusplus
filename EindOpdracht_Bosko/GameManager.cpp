@@ -1,5 +1,7 @@
 #include "GameManager.h"
 
+//PUBLIC vvv
+
 GameManager::GameManager()
 {
 	sf::Font uiFont;
@@ -18,6 +20,81 @@ GameManager::GameManager()
 }
 
 GameManager::~GameManager() {}
+
+//The Update loop
+void GameManager::GameLoop(sf::RenderWindow &window, sf::Sprite &playerRef, sf::Event event)
+{
+	switch (currentGameState)
+	{
+	case GameState::startScreen:
+		StartGame(window, event);
+		break;
+	case GameState::playing:
+		Playing(window, playerRef);
+		break;
+	case GameState::endScreen:
+		break;
+	default:
+		break;
+	}
+}
+
+void GameManager::PlayerLoseHealth()
+{
+
+}
+
+//PUBLIC ^^^^
+
+//PRIVATE vvvv
+
+void GameManager::StartGame(sf::RenderWindow &window, sf::Event event)
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+	{
+		currentGameState = GameState::playing;
+	}
+	window.draw(mainMenuText);
+	window.draw(credits);
+	window.draw(highscoreText);
+	mainMenuDisplay++;
+	if (mainMenuDisplay > 30)
+	{
+		window.draw(pressEnterToStart);
+	}
+	if (mainMenuDisplay > 60)
+	{
+		mainMenuDisplay = 0;
+	}
+}
+
+void GameManager::Playing(sf::RenderWindow &window, sf::Sprite &playerRef)
+{
+	playerCurrentY = playerRef.getPosition().y;
+	frameRate++;
+	if (frameRate > enemySpawnInterval)
+	{
+		SpawnEnemy();
+		frameRate = 0;
+	}
+	if (activeEnemies.size() > 0)
+	{
+		for (Enemy& e : activeEnemies) // & so that i am modifiying the original and NOT the copy
+		{
+			e.Update(window, playerRef);
+		}
+	}
+	if (enemyLocation != -1) // Check if there is an enemy to be deleted after the foreach-loop for no nullreferences
+	{
+		activeEnemies.erase(activeEnemies.begin() + enemyLocation);
+		enemyLocation = -1;
+		ReDefineTextures();
+	}
+	sf::RectangleShape rec(sf::Vector2f(700, 30));
+	rec.setFillColor(sf::Color(255, 255, 0));
+	window.draw(rec);
+	DrawUI(window);
+}
 
 void GameManager::SpawnEnemy()
 {
@@ -133,34 +210,6 @@ Enemy GameManager::SelectEnemyType()
 	}
 }
 
-void GameManager::GameLoop(sf::RenderWindow &window, sf::Sprite &playerRef)
-{
-	playerCurrentY = playerRef.getPosition().y;
-	frameRate++;
-	if (frameRate > enemySpawnInterval)
-	{
-		SpawnEnemy();
-		frameRate = 0;
-	}
-	if (activeEnemies.size() > 0)
-	{
-		for (Enemy& e : activeEnemies) // & so that i am modifiying the original and NOT the copy
-		{
-			e.Update(window, playerRef);
-		}
-	}
-	if (enemyLocation != -1) // Check if there is an enemy to be deleted after the foreach-loop for no nullreferences
-	{
-		activeEnemies.erase(activeEnemies.begin() + enemyLocation);
-		enemyLocation = -1;
-		ReDefineTextures();
-	}
-	sf::RectangleShape rec(sf::Vector2f(700, 30));
-	rec.setFillColor(sf::Color(255, 255, 0));
-	window.draw(rec);
-	DrawUI(window);
-}
-
 //Re-Reference texture each time because of whiteBox issue
 void GameManager::ReDefineTextures()
 {
@@ -181,26 +230,6 @@ void GameManager::DrawUI(sf::RenderWindow &window)
 	window.draw(pointsModifier);
 }
 
-void GameManager::StartGame(sf::RenderWindow &window, sf::Event event)
-{
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-	{
-		gameInProgress = true;
-	}
-	window.draw(mainMenuText);
-	window.draw(credits);
-	window.draw(highscoreText);
-	mainMenuDisplay++;
-	if (mainMenuDisplay > 30)
-	{
-		window.draw(pressEnterToStart);
-	}
-	if (mainMenuDisplay > 60)
-	{
-		mainMenuDisplay = 0;
-	}
-}
-
 void GameManager::InitialiseText(sf::Text &text, int fontSize, sf::Color color, float posX, float posY, std::string content)
 {
 	text.setFont(font);
@@ -209,3 +238,5 @@ void GameManager::InitialiseText(sf::Text &text, int fontSize, sf::Color color, 
 	text.setString(content);
 	text.setPosition(posX, posY);
 }
+
+//PRIVATE ^^^^
